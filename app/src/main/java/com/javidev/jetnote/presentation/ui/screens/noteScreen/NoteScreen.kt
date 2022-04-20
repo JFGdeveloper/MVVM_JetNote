@@ -1,29 +1,38 @@
 package com.javidev.jetnote.presentation.ui.screens.noteScreen
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.javidev.jetnote.R
+import com.javidev.jetnote.data.model.Note
+import com.javidev.jetnote.presentation.ui.screens.composables.CustomButton
 
 @ExperimentalComposeUiApi
 @Composable
-fun NoteScreen() {
-    val textState1 = remember{ mutableStateOf("")}
-    val textState = remember{ mutableStateOf("")}
+fun NoteScreen(
+    notes: List<Note>,
+    addNote: (Note)-> Unit,
+    removeNote: (Note)-> Unit
+) {
+    val titleState = remember{ mutableStateOf("")}
+    val descriptionState = remember{ mutableStateOf("")}
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -43,9 +52,31 @@ fun NoteScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            CustomTexField(value = textState1, actions = keyboardController)
+            CustomTexField(
+                value = titleState,
+                keyController = keyboardController,
+                color = Color.Transparent.copy(0.05f),
+                label = "title",
+                modifier = Modifier.padding(top = 3.dp, bottom = 3.dp)
+            )
 
-            CustomTexField(value = textState, actions = keyboardController)
+            CustomTexField(
+                value = descriptionState,
+                keyController = keyboardController,
+                color = Color.Transparent.copy(0.05f),
+                label = "add a note",
+                modifier = Modifier.padding(top = 3.dp, bottom = 3.dp),
+                onImeAction = { clearImput(titleState,descriptionState)}
+            )
+
+            CustomButton(
+                text = "ADD",
+                shapes = RoundedCornerShape(12.dp),
+                modifier = Modifier.width(100.dp)
+            ) {
+                // TODO añadir notas
+                clearImput(titleState, descriptionState)
+            }
 
         }
     }
@@ -53,9 +84,20 @@ fun NoteScreen() {
 }
 
 
+private fun clearImput(
+    titleState: MutableState<String>,
+    descriptionState: MutableState<String>
+) {
+    if (titleState.value.isNotEmpty() && descriptionState.value.isNotEmpty()) {
+        titleState.value = ""
+        descriptionState.value = ""
+    }
+}
+
+
 @ExperimentalComposeUiApi
 @Preview
 @Composable
 fun PrevNote() {
-    NoteScreen()
+    NoteScreen(notes = emptyList(), addNote = {}, removeNote = {})
 }

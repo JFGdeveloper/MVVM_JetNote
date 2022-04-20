@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.ImeAction
 @Composable
 fun CustomTexField(
     value: MutableState<String>,
-    actions: SoftwareKeyboardController?,
+    keyController: SoftwareKeyboardController?,
     label: String = "Imput",
     color: Color = Color.LightGray,
     onImeAction: ()->Unit = {},
@@ -39,7 +39,7 @@ fun CustomTexField(
         keyboardActions = KeyboardActions(
             onDone = {
                 onImeAction()
-                actions?.hide()
+                keyController?.hide()
             }
         )
     )
