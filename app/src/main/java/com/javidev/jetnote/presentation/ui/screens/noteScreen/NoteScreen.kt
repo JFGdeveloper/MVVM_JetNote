@@ -1,8 +1,8 @@
 package com.javidev.jetnote.presentation.ui.screens.noteScreen
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.javidev.jetnote.R
 import com.javidev.jetnote.data.model.Note
 import com.javidev.jetnote.presentation.ui.screens.composables.CustomButton
+import com.javidev.jetnote.presentation.ui.screens.composables.NoteRow
 
 @ExperimentalComposeUiApi
 @Composable
@@ -47,8 +48,7 @@ fun NoteScreen(
 
         Column(modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)
-            .padding(12.dp),
+            .padding(12.dp, bottom = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -66,22 +66,29 @@ fun NoteScreen(
                 color = Color.Transparent.copy(0.05f),
                 label = "add a note",
                 modifier = Modifier.padding(top = 3.dp, bottom = 3.dp),
-                onImeAction = { clearImput(titleState,descriptionState)}
+                onImeAction = { clearImput(titleState, descriptionState) }
             )
 
             CustomButton(
                 text = "ADD",
                 shapes = RoundedCornerShape(12.dp),
-                modifier = Modifier.width(100.dp)
+                modifier = Modifier.width(100.dp).padding(top = 12.dp)
             ) {
                 // TODO añadir notas
                 clearImput(titleState, descriptionState)
             }
-
         }
-    }
 
-}
+        Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+        LazyColumn{
+            items(notes){ note ->
+                NoteRow(note = note, onclickcled = {})
+
+            }
+        }
+    }// Column
+}// composable
 
 
 private fun clearImput(
