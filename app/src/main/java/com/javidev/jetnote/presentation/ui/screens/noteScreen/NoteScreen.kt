@@ -1,5 +1,8 @@
 package com.javidev.jetnote.presentation.ui.screens.noteScreen
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,6 +19,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +39,7 @@ fun NoteScreen(
     val titleState = remember{ mutableStateOf("")}
     val descriptionState = remember{ mutableStateOf("")}
     val keyboardController = LocalSoftwareKeyboardController.current
+    val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxWidth()) {
         TopAppBar(
@@ -64,9 +69,12 @@ fun NoteScreen(
                 value = descriptionState,
                 keyController = keyboardController,
                 color = Color.Transparent.copy(0.05f),
-                label = "add a note",
+                label = "add a description",
                 modifier = Modifier.padding(top = 3.dp, bottom = 3.dp),
-                onImeAction = { clearImput(titleState, descriptionState) }
+                onImeAction = {
+                    addNote(Note(title = titleState.value, description = descriptionState.value))
+                    clearImput(titleState, descriptionState)
+                }
             )
 
             CustomButton(
@@ -74,7 +82,12 @@ fun NoteScreen(
                 shapes = RoundedCornerShape(12.dp),
                 modifier = Modifier.width(100.dp).padding(top = 12.dp)
             ) {
-                // TODO añadir notas
+                if(titleState.value.isNotEmpty() && descriptionState.value.isNotEmpty()){
+                    addNote(Note(title = titleState.value, description = descriptionState.value))
+                    keyboardController?.hide()
+                    Toast.makeText(context,"Nota creada",Toast.LENGTH_SHORT).show()
+                    Log.d("toast","Toast en pantalla")
+                }
                 clearImput(titleState, descriptionState)
             }
         }
@@ -83,7 +96,10 @@ fun NoteScreen(
 
         LazyColumn{
             items(notes){ note ->
-                NoteRow(note = note, onclickcled = {})
+                NoteRow(note = note, onclickcled = {
+                    removeNote(note)
+                    Log.d("nota","click en lazycolum")
+                })
 
             }
         }
@@ -100,6 +116,8 @@ private fun clearImput(
         descriptionState.value = ""
     }
 }
+
+
 
 
 @ExperimentalComposeUiApi
