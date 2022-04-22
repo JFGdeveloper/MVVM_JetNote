@@ -19,8 +19,10 @@ import com.javidev.jetnote.data.model.Note
 import com.javidev.jetnote.presentation.ui.screens.noteScreen.NoteScreen
 import com.javidev.jetnote.presentation.ui.screens.noteScreen.NoteViewModel
 import com.javidev.jetnote.presentation.ui.theme.JetNoteTheme
-@ExperimentalComposeUiApi
+import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalComposeUiApi
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
 
