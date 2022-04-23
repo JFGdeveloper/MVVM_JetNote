@@ -1,4 +1,4 @@
-package com.javidev.di
+package com.javidev.jetnote.di
 
 import dagger.Module
 import dagger.hilt.InstallIn
