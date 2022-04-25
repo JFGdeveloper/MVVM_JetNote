@@ -53,7 +53,7 @@ fun NoteScreen(
 
         Column(modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp, bottom = 30.dp),
+            .padding(top = 12.dp, bottom = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
