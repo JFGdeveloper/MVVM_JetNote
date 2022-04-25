@@ -27,7 +27,7 @@ fun NoteRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp)
-            .clip(RoundedCornerShape(topEnd = 33.dp, bottomStart = 33.dp)),
+            .clip(RoundedCornerShape(topEnd = 33.dp, topStart = 12.dp, bottomStart = 12.dp)),
         color = Color.Transparent.copy(0.1f),
         elevation = 3.dp
     ) {
@@ -37,7 +37,7 @@ fun NoteRow(
             Text(text = note.title , style = MaterialTheme.typography.subtitle1)
             Text(text = note.description , style = MaterialTheme.typography.subtitle2)
             Text(
-                text = note.entryDay.format(DateTimeFormatter.ofPattern("EEE, d MMM")),
+                text = note.entryDay.toString(), //todo comprobar
                 style = MaterialTheme.typography.caption
             )
         }

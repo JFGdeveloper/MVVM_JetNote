@@ -98,7 +98,7 @@ fun NoteScreen(
             items(notes){ note ->
                 NoteRow(note = note, onclickcled = {
                     removeNote(note)
-                    Log.d("nota","click en lazycolum")
+                    Log.d("room","position en lazycolum: ")
                 })
 
             }
